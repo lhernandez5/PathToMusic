@@ -12,7 +12,7 @@
 
   <style>
     body {
-      background: url(old_moon.png);
+      background: url(images/moon.png);
     }
 
     .jumbotron {
@@ -20,6 +20,11 @@
       margin-top: 0px;
       padding-top: 10px;
     }
+
+    table {
+      font-size: 18px;
+    }
+    
   </style>
 </head>
 
@@ -89,49 +94,56 @@
   <br>
   <br>
   <div class="container">
-      <h4>You're getting closer to seeing a rocking show!</h4>
-      <div class="row">
-        <div class="col-md-9">
-          <table class="table table-dark">
-            <thead>
-              <tr>
-                <th scope="col">Artist</th>
-                <th scope="col">Date</th>
-                <th scope="col">Tickets</th>
-                <th scope="col">Poster</th>
-              </tr>
-            </thead>
-            <tbody id="tbody1">
-            </tbody>
-          </table>
-          <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-              <img class="card-img-top" src="http://via.placeholder.com/100x100" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">Recent Searches</h5>
-                <hr/>
-                <div id="recent-searches"></div>
-              </div>
-            </div>
+    <h4>You're getting closer to seeing a rocking show!</h4>
+    <div class="row">
+      <div class="col-md-8">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Artist</th>
+              <th scope="col">Date</th>
+              <th scope="col">Tickets</th>
+              <th scope="col">Poster</th>
+            </tr>
+          </thead>
+          <tbody id="tbody1">
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+          <!-- <img class="card-img-top" src="http://via.placeholder.com/100x100" alt="Card image cap"> -->
+          <div class="card-body">
+            <h5 class="card-title">Recent Searches</h5>
+            <hr/>
+            <div id="recent-searches"></div>
           </div>
-          <table class="table table-dark">
-            <thead>
-              <tr>
-                <th scope="col">YouTube Links</th>
-              </tr>
-            </thead>
-            <tbody id="tbody2">
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">YouTube Links</th>
+            </tr>
+          </thead>
+          <tbody id="tbody2">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 
 
   <footer class="py-5 bg-dark" id="footer">
