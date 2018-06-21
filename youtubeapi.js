@@ -15,10 +15,12 @@ $(document).ready(function() {
 
   var database = firebase.database();
   var bandName = "";
-  
+
   $("#find-artist").on("click", function(event) {
     event.preventDefault();
-    bandName = $("#artist-input").val().trim();
+    bandName = $("#artist-input")
+      .val()
+      .trim();
     console.log(bandName);
 
     //PUSH CLICK DATA TO FIREBASE
@@ -26,11 +28,17 @@ $(document).ready(function() {
       band: bandName
     });
   });
-  database.ref().on("child_added",function(childSnapshot) {console.log(childSnapshot.val());
+  database.ref().on(
+    "child_added",
+    function(childSnapshot) {
+      console.log(childSnapshot.val());
 
       var recentBandName = childSnapshot.val().band;
-
-      $("#recent-searches").prepend("<ul><li>" + recentBandName + "</li></ul>");
+      if (recentBandName !== "") {
+        $("#recent-searches").prepend(
+          "<ul><li>" + recentBandName + "</li></ul>"
+        );
+      }
     },
     function(errorObject) {
       console.log("Errors handled: " + errorObject.code);
@@ -40,12 +48,18 @@ $(document).ready(function() {
   //YOUTUBE BAND QUERY THIS SECTION
   $("#find-artist").on("click", function(event) {
     event.preventDefault();
-    var keyword = $("#artist-input").val().trim().toLowerCase();
+    var keyword = $("#artist-input")
+      .val()
+      .trim()
+      .toLowerCase();
     var apikey = "AIzaSyCYpIVDYnDUF_X8RT4v_0DYoWuIxjnPMMI";
     // var keyword = "pink"; THIS LINE FOR TESTING BEFORE INPUT RECEIVED FROM TEAM
     var youtube = "https://www.youtube.com/watch?v=";
     var outerQueryURL =
-      "https://www.googleapis.com/youtube/v3/search?q=" + keyword +"&part=snippet&type=video&maxResults=6&results=6&order=viewCount&key=" + apikey;
+      "https://www.googleapis.com/youtube/v3/search?q=" +
+      keyword +
+      "&part=snippet&type=video&maxResults=6&results=6&order=viewCount&key=" +
+      apikey;
     $.ajax({
       url: outerQueryURL,
       method: "GET"
@@ -70,18 +84,23 @@ $(document).ready(function() {
   $("#find-artist").on("click", function(event) {
     event.preventDefault();
     $("h4").hide();
-    var keyword = $("#artist-input").val().trim();
+    var keyword = $("#artist-input")
+      .val()
+      .trim();
     if (keyword !== "") {
-      var url ="https://app.ticketmaster.com/discovery/v2/events.json?keyword=";
+      var url =
+        "https://app.ticketmaster.com/discovery/v2/events.json?keyword=";
       console.log(keyword);
       $("#artist-input").val("");
-      var key ="&countryCode=US&sort=date,asc&apikey=wzw1aN0lKG2c96suxa2buGqcNWjIodvq";
+      var key =
+        "&countryCode=US&sort=date,asc&apikey=wzw1aN0lKG2c96suxa2buGqcNWjIodvq";
       var queryURL = url + keyword + key;
 
       $.ajax({
         url: queryURL,
         method: "GET"
-      }).then(function(response) {
+      })
+        .then(function(response) {
           $("#tbody1").empty();
           console.log(response);
           var h = response._embedded.events;
@@ -89,14 +108,19 @@ $(document).ready(function() {
             var tBody = $("#tbody1");
             var tRow = $("<tr>");
             var titleTd = $("<td>").text(response._embedded.events[i].name);
-            var date = $("<td>").text(
-              response._embedded.events[i].dates.start.localDate
-            );
+
+            var dateFormat = "YYYY/MM/DD";
+            var dateToConvert =
+              response._embedded.events[i].dates.start.localDate;
+            var convertedDate = moment(dateToConvert, dateFormat);
+            var convertDate = convertedDate.format("MM/DD/YYYY");
+            var date = $("<td>").text(convertDate);
+
             var eventUrl = response._embedded.events[i].url;
-            var url = $("<a>")
-              .attr("href", eventUrl)
-              .append(eventUrl);
+            var purch = "Purchase Tickets Here";
+            var url = $("<a href=" + eventUrl + ">" + purch + "</a>");
             var ticketUrl = $("<td>").html(url);
+
             var imgURL = response._embedded.events[i].images[0].url;
             var image = $("<img style='width: 300px'>").attr("src", imgURL);
             var imageOnScreen = $("<td>").html(image);
@@ -104,9 +128,10 @@ $(document).ready(function() {
             tRow.append(titleTd, date, ticketUrl, imageOnScreen);
             tBody.append(tRow);
           }
-        }).catch(err => {
+        })
+        .catch(err => {
           console.log(err);
-          $("#artist-view").html("Sorry no results.");
+          $("h4").html("Sorry no results.");
         });
     } else {
       $("h4").show();
@@ -124,7 +149,14 @@ $(document).ready(function() {
       .val()
       .trim();
     var letters = /^[A-Za-z]+$/;
-    if (state.length === 2 && state !== "" && state.match(letters) &&(city !== "" && city.match(letters))) {
+    if (
+      state.length === 2 &&
+      state !== "" &&
+      state.match(letters) &&
+      (city !== "" && city.match(letters))
+    ) {
+      $("#city-input").val("");
+      $("#state-input").val("");
       var url = "https://app.ticketmaster.com/discovery/v2/events.json?";
       var country = "&countryCode=US&stateCode=";
       var key = "&sort=date,asc&apikey=wzw1aN0lKG2c96suxa2buGqcNWjIodvq";
@@ -133,7 +165,8 @@ $(document).ready(function() {
       $.ajax({
         url: queryURL,
         method: "GET"
-      }).then(function(response) {
+      })
+        .then(function(response) {
           $("tbody").empty();
           console.log(response);
           var h = response._embedded.events;
@@ -141,26 +174,33 @@ $(document).ready(function() {
             var tBody = $("#tbody1");
             var tRow = $("<tr>");
             var titleTd = $("<td>").text(response._embedded.events[i].name);
-            var date = $("<td>").text(
-              response._embedded.events[i].dates.start.localDate
-            );
-            var url = $("<td>").text(response._embedded.events[i].url);
+
+            var dateFormat = "YYYY/MM/DD";
+            var dateToConvert =
+              response._embedded.events[i].dates.start.localDate;
+            var convertedDate = moment(dateToConvert, dateFormat);
+            var convertDate = convertedDate.format("MM/DD/YYYY");
 
             var eventUrl = response._embedded.events[i].url;
-            var pfive = $("<a>")
-              .attr("href", eventUrl)
-              .append(eventUrl);
-            var p = $("<td>").html(pfive);
+            var purch = "Purchase Tickets Here";
+            var url = $("<a href=" + eventUrl + ">" + purch + "</a>");
+            var ticketUrl = $("<td>").html(url);
+
             var imgURL = response._embedded.events[i].images[0].url;
             var image = $("<img style='width: 300px'>").attr("src", imgURL);
             var imageOnScreen = $("<td>").html(image);
             image.addClass("artistImg");
-            tRow.append(titleTd, date, p, imageOnScreen);
-            tBody.append(tRow);
+
+            if (moment(convertDate).isAfter(moment())) {
+              var date = $("<td>").text(convertDate);
+              tRow.append(titleTd, date, ticketUrl, imageOnScreen);
+              tBody.append(tRow);
+            }
           }
-        }).catch(err => {
+        })
+        .catch(err => {
           console.log(err);
-          $("#artist-view").html("Sorry no results.");
+          $("h4").html("Sorry no results.");
         });
     } else {
       $("h4").show();
