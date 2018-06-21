@@ -28,8 +28,11 @@ $(document).ready(function() {
       band: bandName
     });
   });
-  database.ref().on("child_added",function(childSnapshot) {
-      console.log(childSnapshot.val());
+
+
+  database.ref().limitToLast(5).on("child_added",function(childSnapshot) {
+    console.log(childSnapshot.val());
+
       var recentBandName = childSnapshot.val().band;
       if (recentBandName !== "") {
         $("#recent-searches").prepend(
@@ -45,10 +48,7 @@ $(document).ready(function() {
   //YOUTUBE BAND QUERY THIS SECTION
   $("#find-artist").on("click", function(event) {
     event.preventDefault();
-    var keyword = $("#artist-input")
-      .val()
-      .trim()
-      .toLowerCase();
+    var keyword = $("#artist-input").val().trim().toLowerCase();
     var apikey = "AIzaSyCYpIVDYnDUF_X8RT4v_0DYoWuIxjnPMMI";
     // var keyword = "pink"; THIS LINE FOR TESTING BEFORE INPUT RECEIVED FROM TEAM
     var youtube = "https://www.youtube.com/watch?v=";
@@ -81,9 +81,7 @@ $(document).ready(function() {
   $("#find-artist").on("click", function(event) {
     event.preventDefault();
     $("h4").hide();
-    var keyword = $("#artist-input")
-      .val()
-      .trim();
+    var keyword = $("#artist-input").val().trim();
     if (keyword !== "") {
       var url =
         "https://app.ticketmaster.com/discovery/v2/events.json?keyword=";
@@ -96,8 +94,7 @@ $(document).ready(function() {
       $.ajax({
         url: queryURL,
         method: "GET"
-      })
-        .then(function(response) {
+      }).then(function(response) {
           $("#tbody1").empty();
           console.log(response);
           var h = response._embedded.events;
@@ -145,7 +142,6 @@ $(document).ready(function() {
     var state = $("#state-input").val().trim();
     var city = $("#city-input").val().trim();
 
-    console.log(city);
     var letters = /^[A-Za-z]+$/;
     if (state.length === 2 &&state !== "" && state.match(letters) && city.match(letters)) {
       $("#city-input").val("");
