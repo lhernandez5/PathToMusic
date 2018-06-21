@@ -22,9 +22,24 @@
     }
 
     table {
-      font-size: 18px;
+      font-size: 16px;
     }
-    
+
+    .card {
+      width: 100px;
+    }
+
+    /* .container {
+      margin-left: 0px;
+    }
+
+    #container2 {
+      margin-right: 0px;
+    }
+
+    .col-md-2 {
+      padding-right: 10px;
+    } */
   </style>
 </head>
 
@@ -79,7 +94,7 @@
         <div class="form-group">
           <label for="artist-input">Search State</label>
 
-          <input type="text" class="form-control" id="state-input" placeholder="State">
+          <input type="text" class="form-control" id="state-input" placeholder="Ex. NC">
           <hr/>
           <button type="submit" id="find-city" class="btn btn-dark">Search City/State</button>
         </div>
@@ -93,10 +108,10 @@
   </div>
   <br>
   <br>
-  <div class="container">
+  <div class="container" id="container2">
     <h4>You're getting closer to seeing a rocking show!</h4>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-9" id="table1">
         <table class="table table-dark">
           <thead>
             <tr>
@@ -110,34 +125,47 @@
           </tbody>
         </table>
       </div>
-      <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-          <!-- <img class="card-img-top" src="http://via.placeholder.com/100x100" alt="Card image cap"> -->
-          <div class="card-body">
-            <h5 class="card-title">Recent Searches</h5>
-            <hr/>
-            <div id="recent-searches"></div>
+      <div class="col-md-1">
+
+      </div>
+      <div class="col-md-2">
+        <div class="row">
+          <div class="card" style="width: 18rem;">
+            <!-- <img class="card-img-top" src="http://via.placeholder.com/100x100" alt="Card image cap"> -->
+            <div class="card-body">
+              <h5 class="card-title">Trending Artists</h5>
+              <hr/>
+              <div id="recent-searches"></div>
+            </div>
           </div>
+        </div>
+        <br>
+        <div class="row">
+          <table class="table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">YouTube Links</th>
+              </tr>
+            </thead>
+            <tbody id="tbody2">
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
   </div>
-  <div class="container">
+  <br>
+  <!-- <div class="container">
     <div class="row">
-      <div class="col-md-8">
-        <table class="table table-dark">
-          <thead>
-            <tr>
-              <th scope="col">YouTube Links</th>
-            </tr>
-          </thead>
-          <tbody id="tbody2">
-          </tbody>
-        </table>
+      <div class="col-md-10">
+
+      </div>
+      <div class="col-md-2">
+
       </div>
     </div>
-  </div>
+  </div> -->
   <br>
   <br>
   <br>
