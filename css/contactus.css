@@ -1,0 +1,38 @@
+body {
+    background: url(images/moon.png);
+    /* background-size: 1000px 800px;
+    filter: alpha(opacity=50); */
+  }
+
+
+.container {
+    padding-top: 10px;
+}
+
+
+
+.header {
+    text-align: center;
+    background-color: #F5F5F5;
+    color: black ;
+    height: 70px;
+    font-size: 27px;
+    padding: 10px;
+}
+
+.card  {
+    text-align: center;
+}
+
+.btn-primary {
+    align: center;
+    background-color: black;
+}
+
+.map {
+   
+    height: 300px;
+    width: 100%;
+    
+}
+
