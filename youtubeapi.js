@@ -28,11 +28,8 @@ $(document).ready(function() {
       band: bandName
     });
   });
-  database.ref().on(
-    "child_added",
-    function(childSnapshot) {
+  database.ref().on("child_added",function(childSnapshot) {
       console.log(childSnapshot.val());
-
       var recentBandName = childSnapshot.val().band;
       if (recentBandName !== "") {
         $("#recent-searches").prepend(
@@ -93,7 +90,7 @@ $(document).ready(function() {
       console.log(keyword);
       $("#artist-input").val("");
       var key =
-        "&countryCode=US&sort=date,asc&apikey=wzw1aN0lKG2c96suxa2buGqcNWjIodvq";
+        "&countryCode=US&sort=date,asc&size=5&apikey=wzw1aN0lKG2c96suxa2buGqcNWjIodvq";
       var queryURL = url + keyword + key;
 
       $.ajax({
@@ -108,6 +105,9 @@ $(document).ready(function() {
             var tBody = $("#tbody1");
             var tRow = $("<tr>");
             var titleTd = $("<td>").text(response._embedded.events[i].name);
+            
+            var venue = $("<td>").text(response._embedded.events[0]._embedded.venues[0].name);
+            console.log(venue);
 
             var dateFormat = "YYYY/MM/DD";
             var dateToConvert =
@@ -125,7 +125,7 @@ $(document).ready(function() {
             var image = $("<img style='width: 300px'>").attr("src", imgURL);
             var imageOnScreen = $("<td>").html(image);
             image.addClass("artistImg");
-            tRow.append(titleTd, date, ticketUrl, imageOnScreen);
+            tRow.append(titleTd, venue, date, ticketUrl, imageOnScreen);
             tBody.append(tRow);
           }
         })
@@ -142,38 +142,33 @@ $(document).ready(function() {
   $("#find-city").on("click", function(event) {
     event.preventDefault();
     $("h4").hide();
-    var state = $("#state-input")
-      .val()
-      .trim();
-    var city = $("#city-input")
-      .val()
-      .trim();
+    var state = $("#state-input").val().trim();
+    var city = $("#city-input").val().trim();
+
+    console.log(city);
     var letters = /^[A-Za-z]+$/;
-    if (
-      state.length === 2 &&
-      state !== "" &&
-      state.match(letters) &&
-      (city !== "" && city.match(letters))
-    ) {
+    if (state.length === 2 &&state !== "" && state.match(letters) && city.match(letters)) {
       $("#city-input").val("");
       $("#state-input").val("");
-      var url = "https://app.ticketmaster.com/discovery/v2/events.json?";
-      var country = "&countryCode=US&stateCode=";
+      var url = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&stateCode=";
       var key = "&sort=date,asc&apikey=wzw1aN0lKG2c96suxa2buGqcNWjIodvq";
-      var queryURL = url + country + state + "&city=" + city + key;
-
+      var queryURL = url + state + "&city=" + city + key;
+      console.log(queryURL);
       $.ajax({
         url: queryURL,
         method: "GET"
       })
         .then(function(response) {
           $("tbody").empty();
-          console.log(response);
+          console.log(response._embedded.events);
           var h = response._embedded.events;
           for (var i = 0; i < h.length; i++) {
             var tBody = $("#tbody1");
             var tRow = $("<tr>");
             var titleTd = $("<td>").text(response._embedded.events[i].name);
+
+            var venue = $("<td>").text(response._embedded.events[0]._embedded.venues[0].name);
+            console.log(venue);
 
             var dateFormat = "YYYY/MM/DD";
             var dateToConvert =
@@ -193,12 +188,11 @@ $(document).ready(function() {
 
             if (moment(convertDate).isAfter(moment())) {
               var date = $("<td>").text(convertDate);
-              tRow.append(titleTd, date, ticketUrl, imageOnScreen);
+              tRow.append(titleTd, venue, date, ticketUrl, imageOnScreen);
               tBody.append(tRow);
             }
           }
-        })
-        .catch(err => {
+        }).catch(err => {
           console.log(err);
           $("h4").html("Sorry no results.");
         });
