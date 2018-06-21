@@ -1,0 +1,10 @@
+body {
+    margin: auto;
+    
+  }
+  
+  @media (min-width: 992px) {
+    body {
+      
+    }
+  }
